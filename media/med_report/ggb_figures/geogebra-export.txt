@@ -1,0 +1,39 @@
+\documentclass[10pt]{article}
+\usepackage{pgf,tikz,pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{zzttqq}{rgb}{0.6,0.2,0}
+\definecolor{ududff}{rgb}{0.30196078431372547,0.30196078431372547,1}
+\definecolor{xdxdff}{rgb}{0.49019607843137253,0.49019607843137253,1}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
+\clip(-6.515249998857907,-3.6606498753640127) rectangle (6.557776528596223,5.810478014998002);
+\fill[line width=2pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (3,0) -- (2.9621946476291505,0.5746026126413567) -- (5.006533967016703,0.5556735448692498) -- (5.006533967016703,-0.5043542503687402) -- (3.0189818509454716,-0.523283318140847) -- cycle;
+\draw [line width=2.8pt,dash pattern=on 1pt off 1pt] (-6,0)-- (6,0);
+\draw [line width=2pt] (-6,0)-- (6,0);
+\draw [line width=2pt] (-4,0)-- (-2.4136605996492277,2.2214315088146623);
+\draw [line width=2pt] (-2.4136605996492277,2.2214315088146623)-- (4,0);
+\draw [line width=2pt,color=zzttqq] (3,0)-- (2.9621946476291505,0.5746026126413567);
+\draw [line width=2pt,color=zzttqq] (2.9621946476291505,0.5746026126413567)-- (5.006533967016703,0.5556735448692498);
+\draw [line width=2pt,color=zzttqq] (5.006533967016703,0.5556735448692498)-- (5.006533967016703,-0.5043542503687402);
+\draw [line width=2pt,color=zzttqq] (5.006533967016703,-0.5043542503687402)-- (3.0189818509454716,-0.523283318140847);
+\draw [line width=2pt,color=zzttqq] (3.0189818509454716,-0.523283318140847)-- (3,0);
+\draw [->,line width=2pt] (3.394517871195883,2.8113143815088777) -- (3.410686201547171,3.797582532937412);
+\draw [->,line width=2pt] (3.394517871195883,2.8113143815088777) -- (4.477796004732136,2.778977720806303);
+\draw (3.3576833171557503,4.088454762204908) node[anchor=north west] {y};
+\draw (4.5200490127910795,2.92608906656957) node[anchor=north west] {x};
+\draw (-4.247919382680352,0.44350554379286) node[anchor=north west] {O};
+\draw (-2.525896129887272,2.6964859661971574) node[anchor=north west] {A};
+\draw (3.9173408743135014,0.48655612511268737) node[anchor=north west] {B};
+\draw [shift={(-3.352783316022064,0.9063303442511814)},line width=2pt]  plot[domain=0.16325998673762512:1.7503696191640672,variable=\t]({1*0.6839756339366663*cos(\t r)+0*0.6839756339366663*sin(\t r)},{0*0.6839756339366663*cos(\t r)+1*0.6839756339366663*sin(\t r)});
+\draw [line width=2pt] (-3.4713686971186832,1.5799475762228956)-- (-3.332662068503337,1.6926015479635903);
+\draw [line width=2pt] (-3.4713686971186832,1.5799475762228956)-- (-3.326212364742961,1.5087849907928834);
+\begin{scriptsize}
+\draw [fill=xdxdff] (-4,0) circle (2.5pt);
+\draw [fill=ududff] (-2.4136605996492277,2.2214315088146623) circle (2.5pt);
+\draw [fill=xdxdff] (4,0) circle (2.5pt);
+\end{scriptsize}
+\end{tikzpicture}
+\end{document}

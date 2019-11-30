@@ -1,0 +1,28 @@
+Design and fabrication of experiment for dynamic analysis of mechanisms
+- Gripper mechanisms (soft-dexterous, hard multifinger, compliant mechanism) -force cal
+- Legged robot mechanism elasticity measurment, cheetah cub, variable link legths --suspension system for trolly bags
+- Can crusher using using IC engine mechanism, inputs acting force location changes, output force
+- Plane flaps/slats design 
+- https://youtu.be/i5me5yPRU78
+
+
+Identification of mechanism that can be used for dynamic analysis (kinematic, static may also be included) and preliminary analysis of the same. Identification of the things to be varied and quantities to be measured in the experiment and how to carry out the measurements for each of them.
+
+
+TODO before 14oct:
+1. Simscape 
+2. CAD solidworks
+3. Sensors
+4. PPT
+
+Friction
+https://www.tribology-abc.com/abc/friction.htm
+
+Encoder 
+https://robu.in/product/incremental-optical-rotary-encoder-6002400-pulse-600-ppr/?gclid=CjwKCAiA8K7uBRBBEiwACOm4d__gyFYRPPsrSG7JK5_CqDwIw2XZdWpMliCgHYhzeydUEj0lnB-SkBoCQPkQAvD_BwE
+
+Motor
+https://robu.in/product/orange-planetary-gear-dc-motor-12v-50rpm-240-n-cm-pg36m555-99-5k/?gclid=CjwKCAiA8K7uBRBBEiwACOm4d6yOUll_ng18DPG69V96AWftSMJBbqRCth8et3sZXAskE9iyfQpATxoCRiYQAvD_BwE
+
+
+
