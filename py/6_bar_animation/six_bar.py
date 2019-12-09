@@ -164,9 +164,9 @@ class My_mechanism(object):
             # Piston speed
             self.c_speed.append(self.c_dot(self.k))
             ax2.plot(self.c_speed,color='green')
-            ax2.plot([0,600],[0,0],linewidth=1,color='black')
+#            ax2.plot([0,600],[0,0],linewidth=1,color='black')
             ax2.set_xlim(0,600)
-            ax2.set_ylim(0,300)
+            ax2.set_ylim(0,220)
             ax2.set_title('Piston speed')
 
             plt.gca().set_aspect('equal', adjustable='box')
