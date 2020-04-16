@@ -1,0 +1,13 @@
+# ssh into pi
+
+## use the below code to disable startup login (https://ubuntuforums.org/showthread.php?t=2404645)
+sudoedit /etc/lightdm/lightdm.conf
+
+
+[Seat:*]
+autologin-guest = false
+autologin-user = pandoragami
+autologin-user-timeout = 0
+
+
+# create custom rpi package https://medium.com/@decrocksam/building-your-custom-raspbian-image-8b54a24f814e
