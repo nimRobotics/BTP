@@ -2,6 +2,7 @@
 # BTP
 
 This work titled as "Design and Fabrication of Experiment for Dynamic Analysis of Mechanisms " has been undertaken jointly by [Aakash Yadav](http://nimrobotics.github.io/) and Akhil Akunuru under the guidance of [Prof. Sriram Sundar](https://iittp.ac.in/dr-sriram-sundar).
+
 |website| GitHub |
 |--|--|
 | https://nimrobotics.github.io/BTP/ | https://github.com/nimRobotics/BTP |
@@ -15,10 +16,12 @@ background. Although, little has changed in the way the subject is
 presented, our methodology brings the subject alive and current. We
 present the design and fabrication of a novel experimental setup for
 carrying out static, kinematic and dynamic analysis of three different
-mechanisms in a single setup (Figure [\[cad\_ful\]](#cad_ful)). The
-mechanism is designed to be configurable to three different types of
+mechanisms in a single setup (Figure
+<a href="#cad_ful" data-reference-type="ref" data-reference="cad_ful">1</a>).
+The mechanism is designed to be configurable to three different types of
 mechanisms namely - double crank, slider crank and a six bar mechanism
-depending on the use case as shown in Figure [\[cad\_all\]](#cad_all).
+depending on the use case as shown in Figure
+<a href="#cad_all" data-reference-type="ref" data-reference="cad_all">2</a>.
 The mechanism has retrofitted parts (different link lengths and sliders)
 to facilitate multiple experiments in the same setup.
 
@@ -28,7 +31,10 @@ and the development of analytical skills. Hence greatly supplementing
 and reinforcing the theoretical understanding of the undergraduate
 students taking the course.
 
-![CAD model of the mechanism](Pictures/cad_model.png)
+<figure>
+<img src="Pictures/cad_model.png" id="cad_ful" alt="" /><figcaption>CAD model of the mechanism</figcaption>
+</figure>
 
-![Three possible configurations of the mechanism: (a) Four bar, (b)
-Slider crank and (c) Six bar](Pictures/all_mech.png)
+<figure>
+<img src="Pictures/all_mech.png" id="cad_all" alt="" /><figcaption>Three possible configurations of the mechanism: (a) Four bar, (b) Slider crank and (c) Six bar</figcaption>
+</figure>
