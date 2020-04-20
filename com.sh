@@ -2,5 +2,5 @@
 
 git add .
 git commit -m "readme"
-echo 'nimrobotics' | sudo -S git push -u origin master
+git push -u origin master
 
