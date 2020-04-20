@@ -1,5 +1,5 @@
 
-# BTP
+# Introduction
 
 This work titled as "Design and Fabrication of Experiment for Dynamic Analysis of Mechanisms " has been undertaken jointly by [Aakash Yadav](http://nimrobotics.github.io/) and Akhil Akunuru under the guidance of [Prof. Sriram Sundar](https://iittp.ac.in/dr-sriram-sundar).
 
@@ -7,7 +7,6 @@ This work titled as "Design and Fabrication of Experiment for Dynamic Analysis o
 |--|--|
 | [https://nimrobotics.github.io/BTP/](https://nimrobotics.github.io/BTP/) | [https://github.com/nimRobotics/BTP](https://github.com/nimRobotics/BTP) |
 
-# Introduction
 
 ## Motivation and objective
 
@@ -21,10 +20,10 @@ and the development of analytical skills. Hence greatly supplementing and reinfo
 students taking the course.
 
 <figure>
-<img src="Pictures/cad_model.png" id="cad_ful" alt="" /><figcaption>CAD model of the mechanism</figcaption>
+<img align="center" src="Pictures/cad_model.png" id="cad_ful" alt="" /><figcaption>CAD model of the mechanism</figcaption>
 </figure>
 
-<figure>
+<figure align="center">
 <img src="Pictures/all_mech.png" id="cad_all" alt="" /><figcaption>Three possible configurations of the mechanism: (a) Four bar, (b) Slider crank and (c) Six bar</figcaption>
 </figure>
 
