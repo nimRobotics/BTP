@@ -1,33 +1,46 @@
+"""
+@nimrobotics
+
 # https://doc.qt.io/qtforpython/tutorials/expenses/expenses.html#menu-bar
+
+TODO:
+dark theme: https://stackoverflow.com/questions/48256772/dark-theme-for-qt-widgets
+screen shot: https://stackoverflow.com/questions/51361674/is-there-a-way-to-take-screenshot-of-a-window-in-pyqt5-or-qt5
+autoscroll velocity plot
+add margins
+
+"""
 
 import sys
 from PyQt5.QtCore import QObject, pyqtSlot, Qt
-from PyQt5.QtGui import QPainter
+from PyQt5.QtGui import QPainter, QFont
 from PyQt5.QtWidgets import (QAction, QApplication, QHeaderView, QHBoxLayout, QLabel, QLineEdit,
-                               QMainWindow, QPushButton, QTableWidget, QTableWidgetItem,
+                               QMainWindow, QPushButton, QRadioButton, QTableWidget, QTableWidgetItem,
                                QVBoxLayout, QWidget,  QMessageBox, QSizePolicy)
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from six_bar import *
+from mechanismClass import *
 
 
 class plot_figure(FigureCanvas):
 
-    def __init__(self, parent=None, width=50, height=50, dpi=100):
+    def __init__(self, width=50, height=50, dpi=100, parent=None,):
 
         self.fig = Figure(figsize=(width, height), dpi=dpi)
         FigureCanvas.__init__(self, self.fig)
         self.setParent(parent)
-        FigureCanvas.setSizePolicy(self,
-                                   QSizePolicy.Expanding,
-                                   QSizePolicy.Expanding)
+        FigureCanvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
-        self.m = My_mechanism(26,79,18,22,2)
+
         self.ax1 = self.fig.add_subplot(2,1,1)
         self.ax2 = self.fig.add_subplot(2,1,2)
+        # self.dish()
+
+    def draw_graph(self, a, b, p, q, omega):
+        self.m = My_mechanism(a,b,p,q,omega)
         self.anim = animation.FuncAnimation(self.fig, self.animate_loop, interval=10)
         self.draw()
 
@@ -63,129 +76,223 @@ class plot_figure(FigureCanvas):
         self.ax2.set_aspect("equal")
         self.m.k += 0.01
 
+    def clear_plot(self):
+        self.anim.event_source.stop()
+        self.ax1.clear()
+        self.ax2.clear()
+        self.draw()
+
 
 class Widget(QWidget):
     def __init__(self):
         QWidget.__init__(self)
-        self.items = 0
-
-        # Example data
-        self._data = {"Water": 24.5, "Electricity": 55.1, "Rent": 850.0,
-                      "Supermarket": 230.4, "Internet": 29.99, "Bars": 21.85,
-                      "Public transportation": 60.0, "Coffee": 22.45, "Restaurants": 120}
-
-        # Left
-        self.table = QTableWidget()
-        self.table.setColumnCount(2) # table columns
-        self.table.setHorizontalHeaderLabels(["Description", "Price"])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.a=26
+        self.b=76
+        self.p=18
+        self.q=22
+        self.omega=2
 
         # Right
-        self.description = QLineEdit()
-        self.price = QLineEdit()
-        self.add = QPushButton("Add")
-        self.clear = QPushButton("Clear")
-        self.quit = QPushButton("Quit")
-        self.plot = QPushButton("Plot")
-        self.plot_figure = plot_figure(self, width=8, height=4)
-
-        # Disabling 'Add' button
-        self.add.setEnabled(False)
-
+        # a=26,b=79,p=18,q=22,omega=2
+        self.plot_figure = plot_figure(width=8, height=4)
         self.right = QVBoxLayout()
         self.right.addWidget(self.plot_figure)
-        self.right.addWidget(QLabel("Description"))
-        self.right.addWidget(self.description)
-        self.right.addWidget(QLabel("Price"))
-        self.right.addWidget(self.price)
-        self.right.addWidget(self.add)
-        self.right.addWidget(self.clear)
-        self.right.addWidget(self.quit)
+
+        # Left: selectMechanism radio buttons
+        self.fourbar = QRadioButton("Four bar")
+        self.slidercrank = QRadioButton("Slider crank")
+        self.sixbar = QRadioButton("Six bar")
+
+        self.selectMechanism = QHBoxLayout()
+        self.selectMechanism.addWidget(self.fourbar)
+        self.selectMechanism.addWidget(self.slidercrank)
+        self.selectMechanism.addWidget(self.sixbar)
+
+        self.fourbar.setChecked(True)
+        self.fourbar.toggled.connect(self.four_bar)
+        self.slidercrank.toggled.connect(self.slider_crank)
+        self.sixbar.toggled.connect(self.six_bar)
+
+        # left: link lengths input
+        self.lenA = QLineEdit()
+        self.lenAbox = QHBoxLayout()
+        self.lenAbox.addWidget(QLabel("Link A length"))
+        self.lenAbox.addWidget(self.lenA)
+        self.lenAbox.addWidget(QLabel("cm"))
+
+        self.lenB = QLineEdit()
+        self.lenB.setEnabled(False)
+        self.lenBbox = QHBoxLayout()
+        self.lenBbox.addWidget(QLabel("Link B length"))
+        self.lenBbox.addWidget(self.lenB)
+        self.lenBbox.addWidget(QLabel("cm"))
+
+        self.lenP = QLineEdit()
+        self.lenPbox = QHBoxLayout()
+        self.lenPbox.addWidget(QLabel("Link P length"))
+        self.lenPbox.addWidget(self.lenP)
+        self.lenPbox.addWidget(QLabel("cm"))
+
+        self.lenQ = QLineEdit()
+        self.lenQbox = QHBoxLayout()
+        self.lenQbox.addWidget(QLabel("Link Q length"))
+        self.lenQbox.addWidget(self.lenQ)
+        self.lenQbox.addWidget(QLabel("cm"))
+
+        self.omega = QLineEdit()
+        self.omegabox = QHBoxLayout()
+        self.omegabox.addWidget(QLabel("Angular speed"))
+        self.omegabox.addWidget(self.omega)
+        self.omegabox.addWidget(QLabel("rad/s"))
+
+
+
+        # left
+        self.description = QLineEdit()
+        self.price = QLineEdit()
+        self.add = QPushButton("Simulate")
+        # Disabling 'Add' button
+        self.add.setEnabled(False)
+        self.reset = QPushButton("Reset")
+        self.clear = QPushButton("Clear")
+        self.quit = QPushButton("Quit")
+
+        self.left = QVBoxLayout()
+        self.left.addWidget(QLabel("Select the mechanism"))
+        self.left.addLayout(self.selectMechanism)
+        self.left.addWidget(QLabel("Specify the mechanism params"))
+        self.left.addLayout(self.lenAbox)
+        self.left.addLayout(self.lenBbox)
+        self.left.addLayout(self.lenPbox)
+        self.left.addLayout(self.lenQbox)
+        self.left.addLayout(self.omegabox)
+        self.left.addWidget(self.add)
+        self.left.addWidget(self.reset)
+        self.left.addWidget(self.clear)
+        self.left.addWidget(self.quit)
+
+        # Signals and pyqtSlots
+        self.add.clicked.connect(self.add_element)
+        self.quit.clicked.connect(self.quit_application)
+        self.reset.clicked.connect(self.reset_values)
+        self.clear.clicked.connect(self.clear_inputs)
+        # check when to enable Simulate button
+        self.lenA.textChanged[str].connect(self.check_disable)
+        self.lenB.textChanged[str].connect(self.check_disable)
+        self.lenP.textChanged[str].connect(self.check_disable)
+        self.lenQ.textChanged[str].connect(self.check_disable)
+        self.omega.textChanged[str].connect(self.check_disable)
+
 
         # QWidget Layout
         self.layout = QHBoxLayout()
 
-        self.layout.addWidget(self.table)
+        # self.layout.addWidget(self.table)
+        self.layout.addLayout(self.left)
         self.layout.addLayout(self.right)
 
         # Set the layout to the QWidget
         self.setLayout(self.layout)
 
-        # Signals and pyqtSlots
-        self.add.clicked.connect(self.add_element)
-        self.quit.clicked.connect(self.quit_application)
-        # self.plot.clicked.connect(self.plot_data)
-        self.clear.clicked.connect(self.clear_table)
-        self.description.textChanged[str].connect(self.check_disable)
-        self.price.textChanged[str].connect(self.check_disable)
 
-        # Fill example data
-        self.fill_table()
+    @pyqtSlot()
+    def teting(self):
+        plot_figure(self.a,self.b,self.p,self.q,self.omega, width=8, height=4)
+
+
+    # onClick for fourbar radio
+    @pyqtSlot()
+    def four_bar(self):
+        if self.sender().isChecked():
+            self.lenP.setEnabled(True)
+            self.lenQ.setEnabled(True)
+            self.lenA.setEnabled(True)
+            self.lenB.setEnabled(False)
+
+    # onClick for slidercrank radio
+    @pyqtSlot()
+    def slider_crank(self):
+        if self.sender().isChecked():
+            self.lenP.setEnabled(False)
+            self.lenQ.setEnabled(False)
+            self.lenA.setEnabled(True)
+            self.lenB.setEnabled(True)
+
+    # onClick for sixbar radio
+    @pyqtSlot()
+    def six_bar(self):
+        if self.sender().isChecked():
+            self.lenP.setEnabled(True)
+            self.lenQ.setEnabled(True)
+            self.lenA.setEnabled(True)
+            self.lenB.setEnabled(True)
 
     @pyqtSlot()
     def add_element(self):
-        des = self.description.text()
-        price = self.price.text()
+        if self.fourbar.isChecked():
+            print(self.lenA.text(),self.lenP.text(),self.lenQ.text(),self.omega.text())
+        if self.slidercrank.isChecked():
+            print(self.lenA.text(),self.lenB.text(),self.omega.text())
+        if self.sixbar.isChecked():
 
-        self.table.insertRow(self.items)
-        description_item = QTableWidgetItem(des)
-        price_item = QTableWidgetItem("{:.2f}".format(float(price)))
-        price_item.setTextAlignment(Qt.AlignRight)
+            self.plot_figure.draw_graph(int(self.lenA.text()), int(self.lenB.text()),
+                                        int(self.lenP.text()), int(self.lenQ.text()), int(self.omega.text()))
+            print(self.lenA.text(),self.lenB.text(),self.lenP.text(),self.lenQ.text(),self.omega.text())
 
-        self.table.setItem(self.items, 0, description_item)
-        self.table.setItem(self.items, 1, price_item)
 
-        self.description.setText("")
-        self.price.setText("")
-
-        self.items += 1
-
+    # enable add button after required inputs are met
     @pyqtSlot()
     def check_disable(self):
-        if not self.description.text() or not self.price.text():
-            self.add.setEnabled(False)
-        else:
-            self.add.setEnabled(True)
+        if self.fourbar.isChecked():
+            if not self.lenA.text() or not self.lenP.text() or not self.lenQ.text() or not self.omega.text():
+                self.add.setEnabled(False)
+            else:
+                self.add.setEnabled(True)
 
-    # @pyqtSlot()
-    # def plot_data(self):
-    #     # Get table information
-    #     series = QtCharts.QPieSeries()
-    #     for i in range(self.table.rowCount()):
-    #         text = self.table.item(i, 0).text()
-    #         number = float(self.table.item(i, 1).text())
-    #         series.append(text, number)
-    #
-    #     chart = QtCharts.QChart()
-    #     chart.addSeries(series)
-    #     chart.legend().setAlignment(Qt.AlignLeft)
-    #     self.chart_view.setChart(chart)
+        if self.slidercrank.isChecked():
+            if not self.lenA.text() or not self.lenB.text() or not self.omega.text():
+                self.add.setEnabled(False)
+            else:
+                self.add.setEnabled(True)
+
+        if self.sixbar.isChecked():
+            if not self.lenA.text() or not self.lenB.text() or not self.lenP.text() or not self.lenQ.text() or not self.omega.text():
+                self.add.setEnabled(False)
+            else:
+                self.add.setEnabled(True)
 
     @pyqtSlot()
     def quit_application(self):
         QApplication.quit()
 
-    def fill_table(self, data=None):
-        data = self._data if not data else data
-        for desc, price in data.items():
-            description_item = QTableWidgetItem(desc)
-            price_item = QTableWidgetItem("{:.2f}".format(price))
-            price_item.setTextAlignment(Qt.AlignRight)
-            self.table.insertRow(self.items)
-            self.table.setItem(self.items, 0, description_item)
-            self.table.setItem(self.items, 1, price_item)
-            self.items += 1
-
+    # sets the default values i.e.six bar constant velocity
     @pyqtSlot()
-    def clear_table(self):
-        self.table.setRowCount(0)
-        self.items = 0
+    def reset_values(self):
+        # a=26,b=79,p=18,q=22,omega=2
+        self.lenA.setText("26")
+        self.lenB.setText("79")
+        self.lenP.setText("18")
+        self.lenQ.setText("22")
+        self.omega.setText("2")
+        self.sixbar.setChecked(True)
+
+    # clears all input fields
+    @pyqtSlot()
+    def clear_inputs(self):
+        self.lenA.setText("")
+        self.lenB.setText("")
+        self.lenP.setText("")
+        self.lenQ.setText("")
+        self.omega.setText("")
+        self.fourbar.setChecked(True)
+        self.plot_figure.clear_plot()
+
 
 
 class MainWindow(QMainWindow):
     def __init__(self, widget):
         QMainWindow.__init__(self)
-        self.setWindowTitle("Tutorial")
+        self.setWindowTitle("OpenKDM")
 
         # Menu
         self.menu = self.menuBar()
@@ -203,14 +310,18 @@ class MainWindow(QMainWindow):
     def exit_app(self):
         QApplication.quit()
 
+
 if __name__ == "__main__":
-	# Qt Application
-	app = QApplication(sys.argv)
-	# QWidget
-	widget = Widget()
-	# QMainWindow using QWidget as central widget
-	window = MainWindow(widget)
-	window.resize(800, 600)
-	window.show()
-	# Execute application
-	sys.exit(app.exec_())
+    # Qt Application
+    app = QApplication(sys.argv)
+    # QWidget
+    widget = Widget()
+    # QMainWindow using QWidget as central widget
+    window = MainWindow(widget)
+    window.resize(800, 600)
+    # to set custom size
+    # window.show()
+    # to use the full available screen
+    window.showFullScreen()
+    # Execute Application
+    sys.exit(app.exec_())
