@@ -6,9 +6,7 @@ Contains main class for calculating and visualizing the mechanism
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
-from sympy import symbols, Eq, solve
 import numpy as np
-import time
 import math
 
 plt.style.use('ggplot')
@@ -16,8 +14,6 @@ plt.style.use('ggplot')
 # ground for link a and p
 link_a_pivot = (0,-10)
 link_p_pivot = (0,0)
-
-x, y, h = symbols('x y h')
 
 class My_mechanism(object):
 
