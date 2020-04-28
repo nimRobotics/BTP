@@ -5,7 +5,7 @@ from PyQt5.QtCore import QObject, pyqtSlot, Qt, pyqtSignal
 from PyQt5.QtGui import QPainter, QFont, QPixmap
 from PyQt5.QtWidgets import (QAction, QApplication, QHeaderView, QHBoxLayout, QLabel, QLineEdit,
                                QMainWindow, QPushButton, QRadioButton, QTableWidget, QTableWidgetItem,
-                               QVBoxLayout, QWidget,  QMessageBox, QSizePolicy, QGridLayout, QPlainTextEdit)
+                               QVBoxLayout, QWidget,  QMessageBox, QSizePolicy, QGridLayout, QPlainTextEdit, QCheckBox)
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -440,20 +440,52 @@ class main_win(QWidget):
         # self.button.setSizePolicy(QSizePolicy.Preferred,QSizePolicy.Expanding)
         # self.button2.setSizePolicy(QSizePolicy.Preferred,QSizePolicy.Expanding)
 
-        self.intro_text = "The study of the 'Kinematics and Dynamics of Machinery' (IITT course code: ME2206) lies at the very core of a mechanical engineering background. Although, little has changed in the way the subject is presented, our methodology brings the subject alive and current. We present the design and fabrication of a novel experimental setup for carrying out static, kinematic and dynamic analysis of three different mechanisms in a single setup. The mechanism is designed to be configurable to three different types of mechanisms namely - double crank, slider crank and a six bar mechanism depending on the use case. The mechanism has retrofitted parts (different link lengths and sliders) to facilitate multiple experiments in the same setup. The learner gets to 'play' with the mechanism parameters and immediately understand their effects. This will enhance one’s grasp of the concepts and the development of analytical skills. Hence greatly supplementing and reinforcing the theoretical understanding of the undergraduate students taking the course."
+        self.button.setEnabled(False)
+        self.button2.setEnabled(False)
+
+        self.intro_text = """The study of the 'Kinematics and Dynamics of Machinery' (IITT course code: ME2206) lies at the very core of a mechanical engineering background. Although, little has changed in the way the subject is presented, our methodology brings the subject alive and current. We present the design and fabrication of a novel experimental setup for carrying out static, kinematic and dynamic analysis of three different mechanisms in a single setup. The mechanism is designed to be configurable to three different types of mechanisms namely - double crank, slider crank and a six bar mechanism depending on the use case. The mechanism has retrofitted parts (different link lengths and sliders) to facilitate multiple experiments in the same setup. The learner gets to 'play' with the mechanism parameters and immediately understand their effects. This will enhance one’s grasp of the concepts and the development of analytical skills. Hence greatly supplementing and reinforcing the theoretical understanding of the undergraduate students taking the course."""
+
+        self.license_text = """MIT License
+
+Copyright (c) 2020 Aakash Yadav
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. """
 
         self.text = QLabel()
         self.text.setText(self.intro_text)
         self.text.setWordWrap(True)
         self.text.setAlignment(Qt.AlignCenter)
 
-        # self.text = QPlainTextEdit(self.intro_text)
-        # self.text.setReadOnly(True)
+        self.license_layout = QVBoxLayout()
+        self.license = QPlainTextEdit(self.license_text)
+        self.license.setReadOnly(True)
+        self.license_layout.addWidget(self.license)
+        self.license_layout.setContentsMargins(200, 0, 200, 0)
+
+        self.agree_box = QCheckBox("I have read the license agreement")
+        # self.agree_box.setChecked(True)
+        self.agree_box.stateChanged.connect(self.license_agree)
+        self.license_layout.addWidget(self.agree_box)
+
 
         layout.addWidget(self.labelImage)
         layout.addWidget(self.text)
+        layout.addLayout(self.license_layout)
         layout.addWidget(self.button)
         layout.addWidget(self.button2)
+        layout.setSpacing(20)
+        layout.setContentsMargins(200, 10, 200, 10) #left, top, right, bottom
+
 
         self.setLayout(layout)
 
@@ -464,6 +496,15 @@ class main_win(QWidget):
     @pyqtSlot()
     def login2(self):
         self.switch_window2.emit()
+
+    @pyqtSlot()
+    def license_agree(self):
+        if self.sender().isChecked():
+            self.button.setEnabled(True)
+            self.button2.setEnabled(True)
+        else:
+            self.button.setEnabled(False)
+            self.button2.setEnabled(False)
 
 
 class Controller:
