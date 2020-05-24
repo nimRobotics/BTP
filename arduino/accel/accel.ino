@@ -3,7 +3,7 @@
  * Web: http://www.jarzebski.pl
  * (c) 2014 by Korneliusz Jarzebski
  * 
- * Modified @nimrobotics
+ * Modified @nimrobotics for OpenKDM
  * MPU6050 --> Uno
  * vcc --> 5v
  * gnd --> gnd

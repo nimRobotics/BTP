@@ -1,5 +1,5 @@
 // Original: https://robu.in/product/orange-600-ppr-abz-3-phase-incremental-magnetic-rotary-encoder/
-// Modified @nimrobotics
+// modified @nimrobotics for OpenKDM 
 
 //these pins can not be changed 2/3 are special pins
 int encoderPin1 = 2;
