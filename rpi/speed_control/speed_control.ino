@@ -29,7 +29,7 @@ RMCS2303 rmcs;                    //object for class RMCS2303
 
 SoftwareSerial myserial(2,3);     //Software Serial port For Arduino Uno. Comment out if using Mega.
 
-int speed_rpm=5 ;
+int speed_rpm=3 ;
 
 //parameter Settings "Refer datasheet for details"
 byte slave_id=7;

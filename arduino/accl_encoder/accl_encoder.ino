@@ -4,11 +4,11 @@
  * (c) 2014 by Korneliusz Jarzebski
  * 
  * Modified @nimrobotics for OpenKDM
- * MPU6050 --> Uno
- * vcc --> 5v
- * gnd --> gnd
- * scl --> scl
- * sda --> sda
+ * MPU6050 <--> Uno
+ * vcc <--> 5v
+ * gnd <--> gnd
+ * scl <--> scl
+ * sda <--> sda
  */
 
 #include <Wire.h>
@@ -31,7 +31,7 @@ int lastLSB = 0;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println("Initialize MPU6050");
 
   while(!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
@@ -96,14 +96,16 @@ void loop()
 {
   Vector rawAccel = mpu.readRawAccel();
   Vector normAccel = mpu.readNormalizeAccel();
-  delay(50);
-  Serial.print("Accln:");
-  Serial.println(normAccel.YAxis);
+  delay(250);
+//  Serial.print("Accln:");
+//  Serial.println(normAccel.YAxis);
 
   //  encoder start
-  Serial.print("Angle:");
-  Serial.println(encoderValue);
+//  Serial.print("Angle:");
+//  Serial.println(encoderValue);
   // encoder end 
+
+  Serial.println(String(normAccel.YAxis)+" " + String(encoderValue));
 }
 
 //function for encoder 

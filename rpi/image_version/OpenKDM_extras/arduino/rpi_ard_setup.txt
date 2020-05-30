@@ -1,0 +1,15 @@
+# author @nimrobotics for OpenKDM
+# (c) 2020
+
+Download arduino-cli 0.10.0 (ARMv7 from https://github.com/arduino/arduino-cli/releases)
+Copy to the bin: cp arduino-cli /bin/
+Follow the setup https://www.devdungeon.com/content/arduino-cli-tutorial and install avr core
+
+Install custom library by putting the extracted zip in /home/pi/Arduino/libraries folder
+
+Example:
+pi@raspberrypi:~/Desktop $ arduino-cli compile --fqbn arduino:avr:uno /home/pi/Desktop/serial_test
+Sketch uses 3154 bytes (9%) of program storage space. Maximum is 32256 bytes.
+Global variables use 252 bytes (12%) of dynamic memory, leaving 1796 bytes for local variables. Maximum is 2048 bytes.
+pi@raspberrypi:~/Desktop $ arduino-cli upload --port /dev/ttyACM0 --fqbn arduino:avr:uno /home/pi/Desktop/serial_test
+
