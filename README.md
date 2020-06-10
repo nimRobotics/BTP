@@ -1,4 +1,4 @@
-# :exclamation: [Deprecated]
+# :warning: [Deprecated]
 
 Please check <https://nimrobotics.github.io/OpenKDM/>.
 
