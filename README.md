@@ -1,3 +1,6 @@
+# :exclamation: [Deprecated]
+
+Please check <https://nimrobotics.github.io/OpenKDM/>.
 
 # Introduction
 
