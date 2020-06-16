@@ -1,0 +1,1 @@
+START: './test.sh: line 23: dialog: command not found' de '' ''
